@@ -18,6 +18,7 @@ import de.sovity.edc.utils.JsonUtils;
 import de.sovity.edc.utils.catalog.mapper.DspDataOfferBuilder;
 import de.sovity.edc.utils.catalog.model.DspCatalog;
 import jakarta.json.JsonObject;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.eclipse.edc.connector.spi.catalog.CatalogService;
@@ -26,10 +27,11 @@ import org.eclipse.edc.spi.query.QuerySpec;
 import java.nio.charset.StandardCharsets;
 
 @RequiredArgsConstructor
+@AllArgsConstructor
 public class DspCatalogService {
-    private final CatalogMetadataSender catalogMetadataSender;
     private final CatalogService catalogService;
     private final DspDataOfferBuilder dspDataOfferBuilder;
+    private CatalogMetadataSender catalogMetadataSender;
 
     public DspCatalog fetchDataOffers(String endpoint) throws DspCatalogServiceException {
         var catalogJson = fetchDcatResponse(endpoint, QuerySpec.max());
@@ -44,7 +46,9 @@ public class DspCatalogService {
     private JsonObject fetchDcatResponse(String connectorEndpoint, QuerySpec querySpec) {
         var raw = fetchDcatRaw(connectorEndpoint, querySpec);
         var string = new String(raw, StandardCharsets.UTF_8);
-        catalogMetadataSender.sendMetadataForIngestion(string);
+        if (catalogMetadataSender != null) {
+            catalogMetadataSender.sendMetadataForIngestion(string);
+        }
         return JsonUtils.parseJsonObj(string);
     }
 
