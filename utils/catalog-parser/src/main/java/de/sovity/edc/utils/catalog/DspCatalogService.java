@@ -27,6 +27,7 @@ import java.nio.charset.StandardCharsets;
 
 @RequiredArgsConstructor
 public class DspCatalogService {
+    private final CatalogMetadataSender catalogMetadataSender;
     private final CatalogService catalogService;
     private final DspDataOfferBuilder dspDataOfferBuilder;
 
@@ -43,6 +44,7 @@ public class DspCatalogService {
     private JsonObject fetchDcatResponse(String connectorEndpoint, QuerySpec querySpec) {
         var raw = fetchDcatRaw(connectorEndpoint, querySpec);
         var string = new String(raw, StandardCharsets.UTF_8);
+        catalogMetadataSender.sendMetadataForIngestion(string);
         return JsonUtils.parseJsonObj(string);
     }
 
