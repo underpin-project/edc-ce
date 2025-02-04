@@ -29,4 +29,7 @@ public class CrawlerConfig {
 
     int maxDataOffersPerConnector;
     int maxContractOffersPerDataOffer;
+    int maxTrials;
+    int connectionTimeout;
+    String metadataIngesterEndpoint;
 }

@@ -69,6 +69,7 @@ import de.sovity.edc.ext.wrapper.api.common.mappers.policy.ExpressionMapper;
 import de.sovity.edc.ext.wrapper.api.common.mappers.policy.LiteralMapper;
 import de.sovity.edc.ext.wrapper.api.common.mappers.policy.OperatorMapper;
 import de.sovity.edc.ext.wrapper.api.common.mappers.policy.PolicyValidator;
+import de.sovity.edc.utils.catalog.CatalogMetadataSender;
 import de.sovity.edc.utils.catalog.DspCatalogService;
 import de.sovity.edc.utils.catalog.mapper.DspDataOfferBuilder;
 import lombok.NoArgsConstructor;
@@ -151,9 +152,12 @@ public class CrawlerExtensionContextBuilder {
         );
         var fetchedDataOfferBuilder = new FetchedCatalogBuilder(dataOfferMappingUtils);
         var dspDataOfferBuilder = new DspDataOfferBuilder(jsonLd);
+        // TODO: perhaps we have to provide just the crawler config
+        var catalogMetadataSender = new CatalogMetadataSender(crawlerConfig.getMaxTrials(), crawlerConfig.getConnectionTimeout(), crawlerConfig.getMetadataIngesterEndpoint(), monitor);
         var dspCatalogService = new DspCatalogService(
             catalogService,
-            dspDataOfferBuilder
+            dspDataOfferBuilder,
+            catalogMetadataSender
         );
         var dataOfferFetcher = new FetchedCatalogService(dspCatalogService, fetchedDataOfferBuilder);
         var connectorUpdateFailureWriter = new ConnectorUpdateFailureWriter(crawlerEventLogger, monitor);
