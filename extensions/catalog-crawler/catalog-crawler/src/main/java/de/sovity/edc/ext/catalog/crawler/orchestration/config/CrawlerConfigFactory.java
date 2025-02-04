@@ -32,6 +32,9 @@ public class CrawlerConfigFactory {
         var killOfflineConnectorsAfter = getDuration(CrawlerExtension.KILL_OFFLINE_CONNECTORS_AFTER, Duration.ofDays(5));
         var maxDataOffers = config.getInteger(CrawlerExtension.MAX_DATA_OFFERS_PER_CONNECTOR, -1);
         var maxContractOffers = config.getInteger(CrawlerExtension.MAX_CONTRACT_OFFERS_PER_DATA_OFFER, -1);
+        var maxTrials = config.getInteger(CrawlerExtension.MAX_TRIALS, 3);
+        var connectionTimeout = config.getInteger(CrawlerExtension.CONNECTION_TIMEOUT, 60);
+        var metadataIngesterEndpoint = config.getString(CrawlerExtension.METADATA_INGESTER_ENDPOINT, "http://metadata-ingester:8080");
 
         return CrawlerConfig.builder()
                 .environmentId(environmentId)
@@ -39,6 +42,9 @@ public class CrawlerConfigFactory {
                 .killOfflineConnectorsAfter(killOfflineConnectorsAfter)
                 .maxDataOffersPerConnector(maxDataOffers)
                 .maxContractOffersPerDataOffer(maxContractOffers)
+                .maxTrials(maxTrials)
+                .connectionTimeout(connectionTimeout)
+                .metadataIngesterEndpoint(metadataIngesterEndpoint)
                 .build();
     }
 

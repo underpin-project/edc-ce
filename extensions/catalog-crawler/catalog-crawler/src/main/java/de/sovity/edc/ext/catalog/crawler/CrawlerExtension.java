@@ -88,6 +88,15 @@ public class CrawlerExtension implements ServiceExtension {
     @Setting
     public static final String KILL_OFFLINE_CONNECTORS_AFTER = toEdcProp("CRAWLER_KILL_OFFLINE_CONNECTORS_AFTER");
 
+    @Setting
+    public static final String MAX_TRIALS = toEdcProp("CRAWLER_METADATA_INGESTER_MAX_TRIALS");
+
+    @Setting
+    public static final String CONNECTION_TIMEOUT = toEdcProp("CRAWLER_METADATA_INGESTER_CONNECTION_TIMEOUT");
+
+    @Setting
+    public static final String METADATA_INGESTER_ENDPOINT = toEdcProp("CRAWLER_METADATA_INGESTER_ENDPOINT");
+
     @Inject
     private TypeManager typeManager;
 
